@@ -10,4 +10,5 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long> {
     @Query(value="select * from event where client_id=?1 and day=?2", nativeQuery = true)
     List<Event> getSchedule(Long id, Date day);
+
 }
