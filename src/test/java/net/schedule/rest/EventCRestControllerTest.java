@@ -47,13 +47,6 @@ public class EventCRestControllerTest {
                 .finish_time(LocalTime.of(23,0))
                 .day(Date.valueOf("2022-04-05"))
                 .build();
-        EventDto event3 = EventDto.builder()
-                .client_id(4L)
-                .name("evelina3")
-                .start_time(LocalTime.of(18,0))
-                .finish_time(LocalTime.of(21,0))
-                .day(Date.valueOf("2022-04-02"))
-                .build();
         List<EventDto> events = new ArrayList<>();
         events.add(event1);
 
@@ -89,6 +82,9 @@ public class EventCRestControllerTest {
                         LocalTime.of(18,0)), FreeTimeInterval.from(LocalTime.of(21,0),
                                 LocalTime.of(22,0)));
         when(eventService.getSharedFreeTime(ids, Date.valueOf("2022-04-02"))).thenReturn(result);
+
+
+        when(eventService.addSharedEvent(event, ids)).thenReturn(event);
     }
 
     @Nested
@@ -169,6 +165,29 @@ public class EventCRestControllerTest {
                     .andExpect(jsonPath("$[1].start", is("21:00:00")))
                     .andExpect(jsonPath("$[1].finish", is("22:00:00")))
                     ;
+        }
+
+    }
+
+    @Nested
+    @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+    @DisplayName("saveSharedEvent() is working")
+    class SaveSharedEventTest {
+
+        @Test
+        public void save_shared_event() throws Exception {
+            mockMvc.perform(post("/api/schedule/{list}", Date.valueOf("2022-04-02"))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .content("{\"name\" : \"Breakfast\",\"client_id\" : \"1\",\"start_time\" : \"10:00\",\"finish_time\" : \"18:00\",\"day\" : \"2022-04-02\"}"))
+                    .andDo(print())
+                    .andExpect(status().isCreated())
+                    .andExpect(jsonPath("$.name", is("Breakfast")))
+                    .andExpect(jsonPath("$.client_id", is("1")))
+                    .andExpect(jsonPath("$.start_time", is("10:00:00")))
+                    .andExpect(jsonPath("$.finish_time", is("18:00:00")))
+                    .andExpect(jsonPath("$.day", is("2022-04-02")));
+            ;
         }
 
     }

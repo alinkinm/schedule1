@@ -22,7 +22,7 @@ public class EventRestController {
     private final EventServiceImpl eventService;
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EventDto> saveEvent(@RequestBody @Validated EventDto event) {
+    public ResponseEntity<EventDto> saveEvent(@RequestBody EventDto event) {
         System.out.println(event);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -40,10 +40,15 @@ public class EventRestController {
         return ResponseEntity.ok(eventService.getFreeTime(clientId,day));
     }
 
-    @PostMapping(  "/free/{day}")
+    @PostMapping("/free/{day}")
     public ResponseEntity<List<FreeTimeInterval>> showAllFreeTime(@RequestBody List<Long> list,
                                                                             @PathVariable  Date day) {
         return ResponseEntity.ok(eventService.getSharedFreeTime(list,day));
+    }
+
+    @PostMapping("/{list}")
+    public ResponseEntity<EventDto> saveSharedEvent(@RequestBody EventDto event, @PathVariable List<Long> list) {
+        return ResponseEntity.ok(eventService.addSharedEvent(event,list));
     }
 
 

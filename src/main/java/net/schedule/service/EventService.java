@@ -1,13 +1,10 @@
 package net.schedule.service;
 
-import javafx.util.Pair;
 import net.schedule.dto.EventDto;
 import net.schedule.dto.FreeTimeInterval;
 import net.schedule.dto.Schedule;
-import net.schedule.model.Event;
 
 import java.sql.Date;
-import java.time.LocalTime;
 import java.util.List;
 
 public interface EventService {
@@ -21,5 +18,5 @@ public interface EventService {
 
     List<FreeTimeInterval> getSharedFreeTime(List<Long> ids, Date day);
 
-    Boolean checkFreeTimeForNewEvent(Event event);
+    Boolean checkFreeTimeForNewEvent(EventDto event);
 }

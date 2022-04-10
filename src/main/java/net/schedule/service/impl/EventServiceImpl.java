@@ -40,7 +40,7 @@ public class EventServiceImpl implements EventService {
         clientRepository
                 .findById(event.getClient_id())
                 .orElseThrow((Supplier<RuntimeException>) ClientNotFoundException::new);
-        if (checkFreeTimeForNewEvent(newEvent)) {
+        if (checkFreeTimeForNewEvent(event)) {
             return EventDto.from(eventRepository.save(newEvent));
         }
         else {
@@ -98,7 +98,14 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventDto addSharedEvent(EventDto event, List<Long> ids) {
-        return new EventDto();
+        for (Long id: ids) {
+            event.setId(id);
+            if (!checkFreeTimeForNewEvent(event)) {
+                throw new NoFreeTimeForEventException();
+            }
+            saveEvent(event);
+        }
+        return event;
     }
 
     @Override
@@ -146,7 +153,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Boolean checkFreeTimeForNewEvent(Event event) {
+    public Boolean checkFreeTimeForNewEvent(EventDto event) {
         FreeTimeInterval eventTime = FreeTimeInterval.from(event.getStart_time(), event.getFinish_time());
         List<FreeTimeInterval> freeTimeList = getFreeTime(event.getClient_id(), event.getDay());
         for (FreeTimeInterval interval: freeTimeList) {
