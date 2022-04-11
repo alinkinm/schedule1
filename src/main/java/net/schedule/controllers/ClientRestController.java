@@ -1,4 +1,4 @@
-package net.schedule.rest;
+package net.schedule.controllers;
 
 
 import lombok.RequiredArgsConstructor;

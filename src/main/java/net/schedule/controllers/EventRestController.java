@@ -1,4 +1,4 @@
-package net.schedule.rest;
+package net.schedule.controllers;
 
 import lombok.RequiredArgsConstructor;
 import net.schedule.dto.EventDto;
@@ -8,7 +8,6 @@ import net.schedule.service.impl.EventServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;

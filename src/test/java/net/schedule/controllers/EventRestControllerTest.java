@@ -1,4 +1,4 @@
-package net.schedule.rest;
+package net.schedule.controllers;
 
 import net.schedule.dto.EventDto;
 import net.schedule.dto.FreeTimeInterval;
@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.is;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @DisplayName("DiscountsController is working when")
-public class EventCRestControllerTest {
+public class EventRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -93,7 +93,7 @@ public class EventCRestControllerTest {
     class ShowScheduleTest {
 
         @Test
-        public void show_schedule() throws Exception {
+        public void test_show_schedule() throws Exception {
             mockMvc.perform(get("/api/schedule/{id}/{day}", 1L, Date.valueOf("2022-04-05")))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -113,7 +113,7 @@ public class EventCRestControllerTest {
     class SaveEventTest {
 
         @Test
-        public void save_event() throws Exception {
+        public void test_save_event() throws Exception {
             mockMvc.perform(post("/api/schedule")
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
@@ -135,7 +135,7 @@ public class EventCRestControllerTest {
     class ShowFreeTimeTest {
 
         @Test
-        public void show_free_time() throws Exception {
+        public void test_show_free_time() throws Exception {
             mockMvc.perform(get("/api/schedule/free/{id}/{day}", 1L, Date.valueOf("2022-04-02")))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -153,7 +153,7 @@ public class EventCRestControllerTest {
     class ShowAllFreeTimeTest {
 
         @Test
-        public void show_all_free_time() throws Exception {
+        public void test_show_all_free_time() throws Exception {
             mockMvc.perform(post("/api/schedule/free/{day}", Date.valueOf("2022-04-02"))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
@@ -175,7 +175,7 @@ public class EventCRestControllerTest {
     class SaveSharedEventTest {
 
         @Test
-        public void save_shared_event() throws Exception {
+        public void test_save_shared_event() throws Exception {
             mockMvc.perform(post("/api/schedule/{list}", Date.valueOf("2022-04-02"))
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON)

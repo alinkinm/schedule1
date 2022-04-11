@@ -1,6 +1,5 @@
 package net.schedule.service.impl;
 
-import javafx.util.Pair;
 import lombok.RequiredArgsConstructor;
 import net.schedule.dto.EventDto;
 import net.schedule.dto.FreeTimeInterval;
